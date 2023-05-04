@@ -1,0 +1,33 @@
+<policies>
+    <inbound>
+        <base />
+        <set-variable name="idempotence-token" value="@(context.Request.Headers.GetValueOrDefault("idempotence-token", string.Empty))" />
+        <choose>
+            <when condition="@(!string.IsNullOrWhiteSpace((string)context.Variables["idempotence-token"]))">
+                <cache-lookup-value key="@((string)context.Variables["idempotence-token"])" variable-name="cached-response" />
+                <choose>
+                    <when condition="@(context.Variables.ContainsKey("cached-response"))">
+                        <return-response>
+                            <set-body>@((string)context.Variables["cached-response"])</set-body>
+                        </return-response>
+                    </when>
+                </choose>
+            </when>
+        </choose>
+        <set-backend-service id="function-backend" backend-id="{{backend-id}}" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <choose>
+            <when condition="@(!string.IsNullOrWhiteSpace((string)context.Variables["idempotence-token"]))">
+                <cache-store-value key="@((string)context.Variables["idempotence-token"])" value="@(context.Response.Body.As<string>(preserveContent: true))" duration="120" />
+            </when>
+        </choose>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
