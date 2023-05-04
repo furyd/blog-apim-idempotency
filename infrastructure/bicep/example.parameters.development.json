@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "uksouth"
+        },
+        "projectName": {
+            "value": "test"
+        },
+        "serviceName": {
+            "value": "example"
+        },
+        "environmentName": {
+            "value": "dev"
+        },
+        "apimSku": {
+            "value": {
+                "capacity": 1,
+                "name": "Developer"
+            }
+        },
+        "apimProperties": {
+            "value": {
+                "publisherName": "<<your name>>",
+                "publisherEmail": "<<your email>>"
+            }
+        },
+        "functionRoute": {
+            "value": "/Hello"
+        },
+        "functionRouteVerb": {
+            "value": "POST"
+        },
+        "apimRoute": {
+            "value": "example"
+        },
+        "functionVersion": {
+            "value": "~4"
+        },
+        "functionRuntime": {
+            "value": "dotnet"
+        },
+        "appPlanSku":{
+            "value": {
+                "name": "Y1",
+                "tier": "Dynamic"
+            }
+        }
+    }
+}
