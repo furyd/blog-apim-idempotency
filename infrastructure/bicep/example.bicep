@@ -117,6 +117,7 @@ module FunctionBackend 'modules/apim-backend-function.bicep' = {
     siteName:Function.outputs.SiteName
     apimName:ApiManagement.outputs.ApimName
     namedValueName:NamedValueFunctionKey.outputs.NamedValueName
+    sitePath:'api'
   }
 }
 
